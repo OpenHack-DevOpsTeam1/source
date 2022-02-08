@@ -5,7 +5,7 @@
 # the repo. Unless a later match takes precedence,
 # @global-owner1 and @global-owner2 will be requested for
 # review when someone opens a pull request.
-* @OpenHack-DevOpsTeam1
+* @OpenHack-DevOpsTeam1/the-crew
 
 # Teams can be specified as code owners as well. Teams should
 # be identified in the format @org/team-name. Teams must have
