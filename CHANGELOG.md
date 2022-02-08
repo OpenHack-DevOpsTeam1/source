@@ -1,5 +1,4 @@
 ## [OpenHack-DevOpsTeam1] Changelog
-# Kyle Changes
 <a name="1.1.0"></a>
 1.1.0 (04/02/2019)
 
