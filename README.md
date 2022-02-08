@@ -1,4 +1,3 @@
-# README CHANGE
 ---
 page_type: sample
 languages:
