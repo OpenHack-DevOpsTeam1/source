@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        dotnet:
+        shell:
           working-directory: apis/poi
     steps:
     - uses: actions/checkout@v2
