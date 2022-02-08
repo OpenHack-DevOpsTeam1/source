@@ -10,9 +10,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        dotnet:
+          working-directory: apis/poi
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -20,8 +22,8 @@ jobs:
       with:
         dotnet-version: 3.1.x
     - name: Restore dependencies
-      run: dotnet restore 'apis/poi/poi.sln'
+      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore 'apis/poi/poi.sln'
+      run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal 'apis/poi/tests/UnitTests/UnitTests.csproj'
+      run: dotnet test 'tests/UnitTests/UnitTests.csproj' --no-build --verbosity normal
