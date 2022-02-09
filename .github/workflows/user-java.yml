@@ -1,4 +1,4 @@
-name: .NET
+name: user-java CI
 
 on:
   pull_request:
