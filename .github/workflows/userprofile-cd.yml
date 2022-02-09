@@ -38,7 +38,7 @@ on:
     branches:
       - $default-branch
     paths: 
-      - 'apis/${{ env.PROJECTNAME }}/**'
+      - 'apis/userprofile/**'
   workflow_dispatch:
 
 jobs:
