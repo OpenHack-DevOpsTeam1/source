@@ -8,6 +8,7 @@ using System.IO;
 
 namespace poi
 {
+    // This is for a PR to test as-is.
     [ExcludeFromCodeCoverage]
     public class Program
     {
