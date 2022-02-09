@@ -52,9 +52,10 @@ jobs:
           cd "$GITOHTEAMDIRPATH/apis/poi/web"
           az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
     env:
-      BASEIMAGETAG: openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:${{github.sha}}
+      BASEIMAGETAG: ${{github.sha}}
       ACRNAME: openhackyvs74zq0acr
       GITOHTEAMDIRPATH: .
-#<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number>
+#<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number> where the ACR_repository_name follows the naming convention devopsoh/<image_name>:<tag>.
+#openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:
 
   
