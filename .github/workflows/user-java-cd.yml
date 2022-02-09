@@ -34,7 +34,8 @@ env:
 on:
   push:
     branches:
-      - $default-branch
+      #- $default-branch
+      - main
     paths: 
       - 'apis/user-java/**'
   workflow_dispatch:
