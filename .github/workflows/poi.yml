@@ -1,4 +1,4 @@
-name: .NET
+name: POI CI
 
 on:
   pull_request:
