@@ -77,4 +77,5 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/devopsoh/api-trips:${{ env.BASEIMAGETAG }}
         startup-command: 'go run main.go'    # Include start up command to start the app container
+        slot-name: staging
   
