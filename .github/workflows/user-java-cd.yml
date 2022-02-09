@@ -78,4 +78,5 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/devopsoh/api-user-java:${{ env.BASEIMAGETAG }}
         startup-command: 'mvn spring-boot:run'    # Include start up command to start the app container
+        slot-name: staging
   
