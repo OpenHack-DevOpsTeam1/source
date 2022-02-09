@@ -28,7 +28,7 @@ name: poi - cd
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0poi
   BASEIMAGETAG: ${{github.sha}}
-  ACRNAME: openhackyvs74zq0acr
+  ACRNAME: openhackyvs74zq0acr.azurecr.io
   GITOHTEAMDIRPATH: .
 on:
   push:
