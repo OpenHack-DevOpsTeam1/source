@@ -33,7 +33,7 @@ jobs:
         PAT: "PAT"
         ProjectName: "OpenHack"
         AreaPath: "OpenHack"
-        IterationPath: "OpenHack"
+        IterationPath: "OpenHack\\Iteration 1"
         GithubToken: "GithubToken"
         WorkflowFileName: "poi.yml"
       env:
