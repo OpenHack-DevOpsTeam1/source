@@ -78,5 +78,5 @@ jobs:
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/${{ env.ACR_REPOSITORY }}:${{ env.BASEIMAGETAG }}
-#         startup-command: 'npm start'    # Include start up command to start the app container
+         startup-command: 'npm start'    # Include start up command to start the app container
   
