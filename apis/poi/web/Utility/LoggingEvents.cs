@@ -12,7 +12,7 @@ namespace poi.Utility
     {
         public const int Healthcheck = 1001;
 
-        public const int GetAllPOIs = 2001;
+        public const int GetAllPOIs = 2000;
         public const int GetPOIByID = 2002;
         public const int GetPOIByTripID = 2002;
 
