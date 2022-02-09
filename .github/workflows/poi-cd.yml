@@ -35,9 +35,9 @@ on:
     branches:
       #- $default-branch
       - main
-    #paths: 
-      #- 'apis/poi/**'
-  #workflow_dispatch:
+    paths: 
+      - 'apis/poi/**'
+  workflow_dispatch:
 
 jobs:
   build:
