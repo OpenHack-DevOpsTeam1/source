@@ -40,7 +40,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
+    #defaults:
       #run:
         #shell: bash
         #working-directory: apis/poi
