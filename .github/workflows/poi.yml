@@ -25,3 +25,18 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test 'tests/UnitTests/UnitTests.csproj' --no-build --verbosity normal
+    - name: The job has failed
+      uses: stefanstranger/azuredevops-bug-action@1.1
+      if: failure()
+      with:
+        OrganizationName: "hacker2fet"
+        PAT: "PAT"
+        ProjectName: "OpenHack"
+        AreaPath: "OpenHack"
+        IterationPath: "OpenHack"
+        #GithubToken: "GithubToken"
+        WorkflowFileName: "poi.yml"
+      env:
+        PAT: ${{ secrets.AZDOPAT}}
+        #GithubToken: ${{ secrets.githubtoken}}
+      
