@@ -4,31 +4,56 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- main
+  branches:
+    include:
+     - master
+  paths:
+   include:
+    - apis/poi
 
 pool:
-  vmImage: 'windows-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK'
   inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
+    version: 3.1.x
+- task: DotNetCoreCLI@2
+  displayName: Restore
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: restore
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration Release' # Update this to match your need
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    arguments: '--configuration Release --output $(build.artifactStagingDirectory)/publish_output'
+    projects: '**/*.csproj'
+    publishWebProjects: false
+    modifyOutputPath: true
+    zipAfterPublish: false
+
+- task: ArchiveFiles@2
+  displayName: "Archive files"
+  inputs:
+    rootFolderOrFile: "$(build.artifactStagingDirectory)/publish_output/"
+    includeRootFolder: false
+    archiveFile: "$(build.artifactStagingDirectory)/WebApp.zip"
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '$(build.artifactStagingDirectory)/WebApp.zip'
+#    artifactName: 'WebApp'
