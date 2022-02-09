@@ -10,7 +10,7 @@ namespace poi.Utility
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class LoggingEvents
     {
-        public const int Healthcheck = 1000;
+        public const int Healthcheck = 1001;
 
         public const int GetAllPOIs = 2000;
         public const int GetPOIByID = 2002;
