@@ -59,6 +59,7 @@ jobs:
 #<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number> where the ACR_repository_name follows the naming convention devopsoh/<image_name>:<tag>.
 #openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:
 
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
