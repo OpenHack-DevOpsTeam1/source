@@ -28,7 +28,9 @@ name: Build and deploy a container to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0poi
-  
+  BASEIMAGETAG: ${{github.sha}}
+  ACRNAME: openhackyvs74zq0acr
+  GITOHTEAMDIRPATH: .
 on:
   push:
     branches:
@@ -51,10 +53,7 @@ jobs:
           echo "Changing directory to $GITOHTEAMDIRPATH/apis/poi/web..."
           cd "$GITOHTEAMDIRPATH/apis/poi/web"
           az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
-    env:
-      BASEIMAGETAG: ${{github.sha}}
-      ACRNAME: openhackyvs74zq0acr
-      GITOHTEAMDIRPATH: .
+      
 #<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number> where the ACR_repository_name follows the naming convention devopsoh/<image_name>:<tag>.
 #openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:
 
@@ -66,6 +65,9 @@ jobs:
       #url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: 'Debug'
       run: |
           echo "Deploying ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}"
