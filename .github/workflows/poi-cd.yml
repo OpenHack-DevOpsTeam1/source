@@ -42,8 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Lowercase the repo name and username
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Build and push container to ACR
         run: |
           echo "Building API-POI image..."
           echo "Changing directory to $GITOHTEAMDIRPATH/apis/poi/web..."
