@@ -52,8 +52,8 @@ jobs:
       - name: Build and push container to ACR
         run: |
           echo "Building USERPROFILE image..."
-          echo "Changing directory to $GITOHTEAMDIRPATH/apis/${PROJECTNAME}/web..."
-          cd "$GITOHTEAMDIRPATH/apis/${PROJECTNAME}/web"
+          echo "Changing directory to $GITOHTEAMDIRPATH/apis/${PROJECTNAME}/..."
+          cd "$GITOHTEAMDIRPATH/apis/${PROJECTNAME}/"
           az acr build --image "${ACR_REPOSITORY}:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
       
 #<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number> where the ACR_repository_name follows the naming convention devopsoh/<image_name>:<tag>.
