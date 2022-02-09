@@ -32,7 +32,7 @@ jobs:
         OrganizationName: "hacker2fet"
         PAT: "PAT"
         ProjectName: "OpenHack"
-        AreaPath: "OpenHack"
+        AreaPath: "OpenHack\\Iteration 1"
         IterationPath: "OpenHack"
         #GithubToken: "GithubToken"
         WorkflowFileName: "poi.yml"
