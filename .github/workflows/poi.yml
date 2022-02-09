@@ -33,10 +33,10 @@ jobs:
         PAT: "PAT"
         ProjectName: "OpenHack"
         AreaPath: "OpenHack\\Iteration 1"
-        IterationPath: "OpenHack"
-        #GithubToken: "GithubToken"
+        IterationPath: "Iteration 1"
+        GithubToken: "GithubToken"
         WorkflowFileName: "poi.yml"
       env:
         PAT: ${{ secrets.AZDOPAT}}
-        #GithubToken: ${{ secrets.githubtoken}}
+        GithubToken: ${{ secrets.githubtoken}}
       
