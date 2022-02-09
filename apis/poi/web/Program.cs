@@ -6,6 +6,7 @@ using poi.Utility;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
+// Comment to trigger CI.
 namespace poi
 {
     [ExcludeFromCodeCoverage]
