@@ -40,10 +40,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    #defaults:
-      #run:
-        #shell: bash
-        #working-directory: apis/poi
     steps:
       - uses: actions/checkout@v2
 
@@ -53,9 +49,9 @@ jobs:
           echo "Changing directory to $GITOHTEAMDIRPATH/apis/poi/web..."
           cd "$GITOHTEAMDIRPATH/apis/poi/web"
           az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .
-      env:
-        BASEIMAGETAG: openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:${{github.sha}}
-        ACRNAME: openhackyvs74zq0acr
+    env:
+      BASEIMAGETAG: openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:${{github.sha}}
+      ACRNAME: openhackyvs74zq0acr
 #<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number>
 
   
