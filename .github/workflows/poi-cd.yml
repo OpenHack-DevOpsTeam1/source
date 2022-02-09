@@ -52,6 +52,7 @@ jobs:
     env:
       BASEIMAGETAG: openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:${{github.sha}}
       ACRNAME: openhackyvs74zq0acr
+      GITOHTEAMDIRPATH: .
 #<Azure Container Registry URI>/<ACR_repository_name>:<Revision Number>
 
   
