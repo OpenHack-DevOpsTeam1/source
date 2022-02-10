@@ -4,15 +4,16 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-  branches:
-    include:
-     - master
+  # GitHub only: (Use Branch Policies in ADO to configure which pipeline to execute)
+  pr:
+    - master
   paths:
    include:
     - apis/poi
 
 pool:
   vmImage: 'ubuntu-latest'
+#  vmImage: 'windows-latest'
 
 steps:
 - task: UseDotNet@2
@@ -23,37 +24,63 @@ steps:
   displayName: Restore
   inputs:
     command: restore
+    projects: 'apis/**/**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
     command: build
-    projects: '**/*.csproj'
+    projects: 'apis/**/**/*.csproj'
     arguments: '--configuration Release' # Update this to match your need
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
   inputs:
     command: test
-    projects: '**/*.csproj'
+    projects: 'apis/**/**/UnitTests.csproj' # This works
+    #projects: 'apis/**/tests/**/*.csproj' # One test fails with this.
     arguments: '--configuration $(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: publish
-    arguments: '--configuration Release --output $(build.artifactStagingDirectory)/publish_output'
-    projects: '**/*.csproj'
-    publishWebProjects: false
-    modifyOutputPath: true
-    zipAfterPublish: false
-
-- task: ArchiveFiles@2
-  displayName: "Archive files"
-  inputs:
-    rootFolderOrFile: "$(build.artifactStagingDirectory)/publish_output/"
-    includeRootFolder: false
-    archiveFile: "$(build.artifactStagingDirectory)/WebApp.zip"
+# Tasks to publish, archive files and publish the artifacts:
+#- task: DotNetCoreCLI@2
+#  inputs:
+#    command: publish
+#    arguments: '--configuration Release --output $(build.artifactStagingDirectory)/publish_output'
+#    projects: 'apis/**/web/*.csproj'
+#    publishWebProjects: false
+#    modifyOutputPath: true
+#    zipAfterPublish: false
+#
+#- task: ArchiveFiles@2
+#  displayName: "Archive files"
+#  inputs:
+#    rootFolderOrFile: "$(build.artifactStagingDirectory)/publish_output/"
+#    includeRootFolder: false
+#    archiveFile: "$(build.artifactStagingDirectory)/WebApp.zip"
 #- task: PublishBuildArtifacts@1
 #  inputs:
 #    PathtoPublish: '$(build.artifactStagingDirectory)/WebApp.zip'
 #    artifactName: 'WebApp'
+
+# This only works on Windows: (But it has a lot of information out of the box!)
+# For more information go to:
+# https://marketplace.visualstudio.com/items?itemName=AmanBedi18.CreateBugTask
+#- task: CreateBug@2
+#  inputs:
+#    isyamlpipeline: true
+#    custompaths: false
+#    customrequestor: false
+#  condition: failed()
+#  env:
+#    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+
+# Create or update a work item: (Might need more details on the body)
+# For more information go to:
+# https://marketplace.visualstudio.com/items?itemName=mspremier.CreateWorkItem
+- task: CreateWorkItem@1
+  displayName: 'Create Bug on Failure'
+  inputs:
+    workItemType: bug
+    iterationPath: '@CurrentIteration'
+    title: Azure Pipeline $(Build.DefinitionName) failed against build $(Build.BuildNumber)
+  condition: failed()
