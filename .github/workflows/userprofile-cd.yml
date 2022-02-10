@@ -39,6 +39,7 @@ on:
       - main
     paths: 
       - 'apis/userprofile/**'
+      - '.github/workflows/userprofile-cd.yml'
   workflow_dispatch:
 
 jobs:

@@ -15,6 +15,7 @@ on:
       - main
     paths: 
       - 'apis/poi/**'
+      - '.github/workflows/poi-cd.yml'
   workflow_dispatch:
 
 jobs:

@@ -15,6 +15,7 @@ on:
       - $default-branch
     paths: 
       - 'apis/trips/**'
+      - '.github/workflows/trips-cd.yml'
   workflow_dispatch:
 
 jobs:
