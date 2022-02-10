@@ -81,7 +81,7 @@ jobs:
     - name: 'Check staging deployment is successful'
       run: |
         echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
-        cd "$GITOHTEAMDIRPATH/resources"
+        cd "resources"
         ./polling.ps1 "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi"
       shell: pwsh
     # if successful continue to deploy to prod ?
