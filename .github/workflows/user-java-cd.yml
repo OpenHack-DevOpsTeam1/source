@@ -39,6 +39,7 @@ on:
       - main
     paths: 
       - 'apis/user-java/**'
+      - '.github/workflows/user-java-cd.yml'
   workflow_dispatch:
 
 jobs:
