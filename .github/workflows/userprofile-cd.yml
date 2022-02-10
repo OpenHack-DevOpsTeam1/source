@@ -93,7 +93,7 @@ jobs:
         cd "$GITOHTEAMDIRPATH/resources"
         # make file runnable
         chmod +x "./polling.sh"
-        ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/${{env.PROJECTNAME}}" 90
+        ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/user" 90
       shell: bash
     # if successful swap stage to prod
     - name: 'Swap web app deployment slots for blue/green'
