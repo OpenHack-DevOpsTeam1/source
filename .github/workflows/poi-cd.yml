@@ -79,7 +79,7 @@ jobs:
     # check
     - name: 'Check staging deployment is successful'
       run: |
-          '/source/resources/polling.sh ${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi
+          '/source/resources/polling.sh ${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi'
     # if successful continue to deploy to prod ?
     - name: 'Deploy to Azure Web App Production for Container'
       id: deploy-prod
