@@ -6,7 +6,7 @@ name: Build and deploy a trips container to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0trips
   BASEIMAGETAG: ${{github.sha}}
-  ACRNAME: openhackyvs74zq0acr
+  ACRNAME: openhackyvs74zq0acr.azurecr.io
   GITOHTEAMDIRPATH: .
   RESOURCE_GROUP: openhackyvs74zq0rg
 on:
