@@ -82,7 +82,10 @@ jobs:
       run: |
         echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
         cd "$GITOHTEAMDIRPATH/resources"
+        # make file runnable
+        chmod +x "$GITOHTEAMDIRPATH/script.sh"
         ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi"
+      shell: bash
     # if successful continue to deploy to prod ?
     - name: 'Deploy to Azure Web App Production for Container'
       id: deploy-prod
