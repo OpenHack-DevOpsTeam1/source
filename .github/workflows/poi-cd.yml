@@ -62,8 +62,6 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      #url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
     steps:
     - uses: azure/login@v1
       with:
@@ -72,10 +70,20 @@ jobs:
       run: |
           echo "Deploying ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}"
     - name: 'Deploy to Azure Web App for Container'
+      id: deploy-staging
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
         slot-name: 'staging'
-#         startup-command: 'npm start'    # Include start up command to start the app container
-  
+    # check
+    - name: 'Check staging deployment is successful'
+      run: |
+          '/source/resources/polling.sh ${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi
+    # if successful continue to deploy to prod ?
+    - name: 'Deploy to Azure Web App Production for Container'
+      id: deploy-prod
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+        images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
