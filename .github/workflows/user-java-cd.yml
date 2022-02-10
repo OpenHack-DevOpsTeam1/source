@@ -24,13 +24,14 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: User-Java - CD
+name: user-java - CD
 
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0userjava
   BASEIMAGETAG: ${{github.sha}}
-  ACRNAME: openhackyvs74zq0acr
+  ACRNAME: openhackyvs74zq0acr.azurecr.io
   GITOHTEAMDIRPATH: .
+  RESOURCE_GROUP: openhackyvs74zq0rg
 on:
   push:
     branches:
@@ -73,10 +74,25 @@ jobs:
       run: |
           echo "Deploying ${{ env.ACRNAME }}/devopsoh/api-user-java:${{ env.BASEIMAGETAG }}"
     - name: 'Deploy to Azure Web App for Container'
+      id: deploy-staging
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/devopsoh/api-user-java:${{ env.BASEIMAGETAG }}
         #startup-command: 'mvn spring-boot:run'    # Include start up command to start the app container
         slot-name: staging
-  
+      # check
+    - uses: actions/checkout@v2
+    - name: 'Check staging deployment is successful'
+      run: |
+        echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
+        cd "$GITOHTEAMDIRPATH/resources"
+        # make file runnable
+        chmod +x "./polling.sh"
+        ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/user-java" 90
+      shell: bash
+    # if successful swap stage to prod
+    - name: 'Swap web app deployment slots for blue/green'
+      id: swap-to-prod
+      run: |
+        az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
