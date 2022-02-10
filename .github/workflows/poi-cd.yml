@@ -28,7 +28,7 @@ name: poi - cd
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0poi
   BASEIMAGETAG: ${{github.sha}}
-  ACRNAME: openhackyvs74zq0acr
+  ACRNAME: openhackyvs74zq0acr.azurecr.io
   GITOHTEAMDIRPATH: .
   RESOURCE_GROUP: openhackyvs74zq0rg
 on:
@@ -75,7 +75,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-        images: openhackyvs74zq0acr.azurecr.io/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
+        images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
         slot-name: 'staging'
     # check
     - uses: actions/checkout@v2
