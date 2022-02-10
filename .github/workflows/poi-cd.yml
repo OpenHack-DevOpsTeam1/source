@@ -92,4 +92,3 @@ jobs:
       id: swap-to-prod
       run: |
         az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
-    
