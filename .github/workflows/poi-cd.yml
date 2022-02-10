@@ -66,7 +66,22 @@ jobs:
         ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi" 90
       shell: bash
     # if successful swap stage to prod
-    - name: 'Swap web app deployment slots for blue/green'
-      id: swap-to-prod
+    #- name: 'Swap web app deployment slots for blue/green'
+      #id: swap-to-prod
+      #run: |
+        #az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
+   
+    - name: 'set traffic to 20'
       run: |
-        az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
+        az webapp traffic-routing set --distribution staging=20 --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
+      shell: bash
+    - name: 'set traffic to 100'
+      run: |
+        az webapp traffic-routing set --distribution staging=100 --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
+      shell: bash
+    - name: 'set traffic to 0'
+      run: |
+        az webapp traffic-routing clear --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
+      shell: bash
+      if: failure()
+      
