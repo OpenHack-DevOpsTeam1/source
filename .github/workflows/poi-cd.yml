@@ -90,4 +90,4 @@ jobs:
     - name: 'Swap web app deployment slots for blue/green'
       id: swap-to-prod
       run: |
-        az webapp deployment slot swap -n ${{ env.AZURE_WEBAPP_NAME }} —slot staging —target-slot production
+        az webapp deployment slot swap -n ${{ env.AZURE_WEBAPP_NAME }} —-slot staging —-target-slot production
