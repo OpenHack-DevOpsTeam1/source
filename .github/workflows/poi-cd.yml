@@ -77,17 +77,17 @@ jobs:
         images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
         slot-name: 'staging'
     # check
-    - uses: actions/checkout@v2
-    - name: 'Check staging deployment is successful'
-      run: |
-        echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
-        cd "resources"
-        ./polling.ps1 "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi"
-      shell: pwsh
+    #- uses: actions/checkout@v2
+    #- name: 'Check staging deployment is successful'
+    #  run: |
+    #    echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
+    #    cd "resources"
+    #    ./polling.ps1 "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi"
+    #  shell: pwsh
     # if successful continue to deploy to prod ?
-    - name: 'Deploy to Azure Web App Production for Container'
-      id: deploy-prod
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-        images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
+    #- name: 'Deploy to Azure Web App Production for Container'
+    #  id: deploy-prod
+    #  uses: azure/webapps-deploy@v2
+    #  with: 
+    #    app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+    #    images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
