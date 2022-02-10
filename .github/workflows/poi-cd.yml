@@ -86,10 +86,8 @@ jobs:
         chmod +x "./polling.sh"
         ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/poi" 90
       shell: bash
-    # if successful continue to deploy to prod ?
-    - name: 'Deploy to Azure Web App Production for Container'
-      id: deploy-prod
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-        images: ${{ env.ACRNAME }}/devopsoh/api-poi:${{ env.BASEIMAGETAG }}
+    # if successful swap stage to prod
+    - name: 'Swap web app deployment slots for blue/green'
+      id: swap-to-prod
+      run: |
+        az webapp deployment slot swap -n ${{ env.AZURE_WEBAPP_NAME }} —slot staging —target-slot production
