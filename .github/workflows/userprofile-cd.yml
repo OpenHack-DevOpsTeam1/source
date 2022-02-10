@@ -29,10 +29,12 @@ name: (UserProfile) Build and deploy a container to an Azure Web App
 env:
   AZURE_WEBAPP_NAME: openhackyvs74zq0userprofile
   BASEIMAGETAG: ${{github.sha}}
-  ACRNAME: openhackyvs74zq0acr
-  ACR_REPOSITORY: devopsoh/api-userprofile
+  ACRNAME: openhackyvs74zq0acr.azurecr.io
   GITOHTEAMDIRPATH: .
+  RESOURCE_GROUP: openhackyvs74zq0rg
+  ACR_REPOSITORY: devopsoh/api-userprofile
   PROJECTNAME: userprofile
+  
 on:
   push:
     branches:
@@ -74,9 +76,27 @@ jobs:
       run: |
           echo "Deploying ${{ env.ACRNAME }}/${{ env.ACR_REPOSITORY}}:${{ env.BASEIMAGETAG }}"
     - name: 'Deploy to Azure Web App for Container'
+      id: deploy-staging
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} 
         images: ${{ env.ACRNAME }}/${{ env.ACR_REPOSITORY }}:${{ env.BASEIMAGETAG }}
+        slot-name: 'staging'
         # startup-command: 'npm start'    # Include start up command to start the app container
   
+  # check
+    - uses: actions/checkout@v2
+    - name: 'Check staging deployment is successful'
+      run: |
+        echo "Running polling.sh from $GITOHTEAMDIRPATH/resources/polling.sh"
+        cd "$GITOHTEAMDIRPATH/resources"
+        # make file runnable
+        chmod +x "./polling.sh"
+        ./polling.sh "${{ steps.deploy-staging.outputs.webapp-url }}/api/healthcheck/${{env.PROJECTNAME}}" 90
+      shell: bash
+    # if successful swap stage to prod
+    - name: 'Swap web app deployment slots for blue/green'
+      id: swap-to-prod
+      run: |
+        az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
+
