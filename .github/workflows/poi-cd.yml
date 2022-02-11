@@ -75,7 +75,7 @@ jobs:
         az webapp traffic-routing set --distribution staging=20 --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
       shell: bash
 
-  full-deployment:
+  full-deployment-check:
     runs-on: ubuntu-latest
     needs: deploy
     environment:
@@ -89,23 +89,6 @@ jobs:
         az webapp deployment slot swap -g ${{env.RESOURCE_GROUP}}  -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging --target-slot production
         az webapp traffic-routing clear --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
       shell: bash
-    - if: failure()
-      name: 'Rollback the changes.'
-      run: |
-        az webapp traffic-routing clear --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{env.RESOURCE_GROUP}}
-      shell: bash
-    - name: The job has failed
-      uses: stefanstranger/azuredevops-bug-action@1.1
-      if: failure()
-      with:
-        OrganizationName: "hacker2fet"
-        PAT: "PAT"
-        ProjectName: "OpenHack"
-        AreaPath: "OpenHack"
-        IterationPath: "OpenHack\\Iteration 1"
-        GithubToken: "GithubToken"
-        WorkflowFileName: "poi.yml"
-      env:
-        PAT: ${{ secrets.AZDOPAT}}
-        GithubToken: ${{ secrets.githubtoken}}
+        
+
   
